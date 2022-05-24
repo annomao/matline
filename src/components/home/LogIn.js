@@ -28,7 +28,7 @@ const LogIn = () => {
   return(
     <>
     <HomeHeader/>
-    <div className="flex items-center">
+    <div className="flex justify-center">
     <div className="px-8 py-6 mt-4 text-left bg-white shadow-2xl">
         <h3 className="text-2xl font-bold text-center text-app-maroon">Login to your account</h3>
         <form>
