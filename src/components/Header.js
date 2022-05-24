@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = () =>{
+const Header = ({children}) =>{
   return(
     <header>
       <nav className="flex items-center justify-between flex-wrap bg-white p-6">
@@ -11,11 +11,7 @@ const Header = () =>{
           <div className="text-sm md:flex-grow">
           </div>
           <div>
-            <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-app-maroon border-app-maroon hover:border-transparent hover:text-app-maroon hover:bg-white mt-4 mr-4 lg:mt-0">
-              Sign Up
-            </button>
-            <button className="inline-block text-sm px-4 py-2 leading-none border rounded text-app-maroon border-app-maroon hover:border-transparent hover:text-app-maroon hover:bg-white mt-4 lg:mt-0">
-              LogIn</button>
+            {children}
           </div>
         </div>
       </nav>
