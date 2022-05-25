@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db, logout } from "../../firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import DashHeader from "./DashHeader";
+import BookingPage from "./BookingPage";
 
 const DashBoard = ()=>{
   const [user, loading, error] = useAuthState(auth);
@@ -24,10 +25,13 @@ const DashBoard = ()=>{
     if (loading) return;
     if (!user) return navigate("/login");
     fetchUserName();
-  }, [user, loading,navigate, fetchUserName]);
-  
+  }, [user, loading,navigate]);
+
   return(
+    <>
     <DashHeader logout={logout}/>
+    <BookingPage/>
+    </>
   )
 }
 
