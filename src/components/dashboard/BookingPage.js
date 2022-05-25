@@ -1,12 +1,26 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
+import { auth, db, logout } from "../../firebase";
 import DatePicker from "react-datepicker";
 import addDays from 'date-fns/addDays'  
 import "react-datepicker/dist/react-datepicker.css";
+import SeatSelection from "./SeatSelection";
+import DashHeader from "./DashHeader";
 
 const BookingPage = () => {
+  const [user, loading, error] = useAuthState(auth);
+  const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
 
+  useEffect(() => {
+    if (loading) return;
+    if (!user) return navigate("/login");
+  }, [user, loading,navigate]);
+
   return(
+    <>
+    <DashHeader logout={logout} />
     <section>
       <div className="flex justify-center">
         <form>
@@ -40,8 +54,11 @@ const BookingPage = () => {
           </div>
         </div>
         </form>
-      </div>  
+      </div> 
+      <SeatSelection/> 
     </section>
+    </>
+    
   )
 }
 
