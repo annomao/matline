@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, registerWithEmailAndPassword} from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -11,14 +11,23 @@ const Register = () => {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    if(loading){
-      return;
-    }
-    if(user){
-      navigate("/dashboard")
-    }
-  },[user,loading,navigate])
+  if(loading){
+    return (
+      <div>
+        <p>Initialising</p>
+      </div>
+    );
+  }
+  if(error) {
+    return (
+      <div>
+        <p>Error: {error}</p>
+      </div>
+    );
+  }
+  if(user){
+    navigate("/dashboard")
+  }
 
   const register = (e) => {
     e.preventDefault()

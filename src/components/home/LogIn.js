@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword} from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -9,15 +9,24 @@ const LogIn = () => {
   const[password,setPassword] = useState("")
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
-
-  useEffect(()=>{
-    if(loading){
-      return;
-    }
-    if(user){
-      navigate("/dashboard")
-    }
-  },[user,loading,navigate])
+  
+  if(loading){
+    return (
+      <div>
+        <p>Initialising</p>
+      </div>
+    );
+  }
+  if(error) {
+    return (
+      <div>
+        <p>Error: {error}</p>
+      </div>
+    );
+  }
+  if(user){
+    navigate("/dashboard")
+  }
 
   const login = (e) => {
     e.preventDefault()
@@ -48,7 +57,7 @@ const LogIn = () => {
           </div>
           <div className="flex items-baseline justify-between">
               <button onClick={login} className="px-6 py-2 mt-4 text-white bg-app-maroon/90 rounded-lg hover:bg-app-maroon">Login</button>
-              {/* <a href="#" className="text-sm text-blue-600 hover:underline">Forgot password?</a> */}
+              {/* <a href="#" className="text-sm text-blue-600 hover:underline">Forgot password?</a> */}              
           </div>
         </form>
     </div>
