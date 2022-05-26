@@ -2,7 +2,7 @@ import React,{useState, useEffect} from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db, logout } from "../../firebase";
-import {collection, addDoc, query, getDocs, where,onSnapshot} from 'firebase/firestore'
+import {collection, addDoc, query, where,onSnapshot} from 'firebase/firestore'
 import DatePicker from "react-datepicker";
 import addDays from 'date-fns/addDays'  
 import "react-datepicker/dist/react-datepicker.css";
@@ -23,10 +23,9 @@ const BookingPage = () => {
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/login");
-    fetchSeats()
-  }, [user, loading,navigate,startDate]);
+  }, [user, loading,navigate]);
 
-  async function fetchSeats (){
+  useEffect(()=>{
     try {
       const q = query(collection(db, 'bookings'), where("bookingDate", "==", startDate.toDateString()));
       onSnapshot(q, (querySnapshot) => {
@@ -38,9 +37,7 @@ const BookingPage = () => {
       console.error(err);
       alert("An error occured while fetching user data");
     }
-  };
-
-  console.log(selectedSeats,startDate)
+  },[startDate])
 
   // function to get seat number
   const getSeatNumber = (seat) => {
@@ -87,6 +84,7 @@ const BookingPage = () => {
         setStartDate(new Date())
         setTelephone("")
         setUserError([])
+        navigate("/dashboard")
 
       } catch (err) {
         alert(err)
