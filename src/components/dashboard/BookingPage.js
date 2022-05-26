@@ -50,18 +50,6 @@ const BookingPage = () => {
     
   }
 
-  //send email function
-  // const sendEmail = (email,bookingId) => {
-  //   window.Email.send({
-  //     SecureToken : "c4a0f7ab-15a0-4524-b8c0-075e073c7f4e",
-  //     To : email,
-  //     From : "matline.pr@gmail.com",
-  //     Subject: "Matline Booking Details",
-  //     Body: `Below is your booking details. Booking ID:${bookingId}`
-  //     })
-  //     .then(message => alert(message)
-  //     );
-  // }
 
   //perform empty checks and send data to firestore
   const handleSubmit = async (e) => {
@@ -75,11 +63,11 @@ const BookingPage = () => {
         userid:user.uid,
         phone: telephone, 
         seats: seats , 
+        price: seats.length * 500,
         bookingDate:startDate.toDateString()
       };
       try {
         const docRef = await addDoc(collection(db, 'bookings'), formData)
-        // sendEmail(user.email,docRef.id)
         setSeats([])
         setStartDate(new Date())
         setTelephone("")
