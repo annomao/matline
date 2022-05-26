@@ -64,7 +64,6 @@ const BookingPage = () => {
       };
       try {
         const docRef = await addDoc(collection(db, 'bookings'), formData)
-        console.log(formData,user,docRef.id)
         setSeats([])
         setStartDate(new Date())
         setTelephone("")
@@ -72,7 +71,7 @@ const BookingPage = () => {
       } catch (err) {
         alert(err)
       }
-      // sendEmail(user.email)
+      // sendEmail(user.email) docRef.id for sending emails
     }
   }
   

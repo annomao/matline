@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db, logout } from "../../firebase";
-import { query, collection, getDocs, where } from "firebase/firestore";
+import { query, collection, getDocs, where,onSnapshot } from "firebase/firestore";
 import DashHeader from "./DashHeader";
+import BookingDisplay from "./BookingDisplay";
+import Footer from "../Footer";
 
 const DashBoard = ()=>{
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
+  const [userBookings, setUserBookings] = useState([])
   const navigate = useNavigate();
-  
+
   const fetchUserName = async () => {
     try {
       const q = query(collection(db, "users"), where("uid", "==", user?.uid));
@@ -21,15 +24,31 @@ const DashBoard = ()=>{
       alert("An error occured while fetching user data");
     }
   };
+
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/login");
     fetchUserName();
+    const q = query(collection(db, 'bookings'), where('userid',"==", user.uid))
+    onSnapshot(q, (querySnapshot) => {
+    setUserBookings(querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      data: doc.data()
+    })))
+  })
   }, [user, loading,navigate]);
+
+  console.log(userBookings)
 
   return(
     <>
     <DashHeader logout={logout}/>
+    <div className="text-center">
+      <h1 className="text-2xl font-dancing-script text-gray-800 text-left mx-8">Welcome back {name}</h1>
+      <p>Booking Details </p>
+    </div>
+    <BookingDisplay data={userBookings} />
+    <Footer/>
     </>
   )
 }
