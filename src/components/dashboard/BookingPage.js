@@ -2,11 +2,13 @@ import React,{useState, useEffect} from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db, logout } from "../../firebase";
+import {collection, addDoc} from 'firebase/firestore'
 import DatePicker from "react-datepicker";
 import addDays from 'date-fns/addDays'  
 import "react-datepicker/dist/react-datepicker.css";
 import SeatSelection from "./SeatSelection";
 import DashHeader from "./DashHeader";
+// import {Email} from "../../smtp"
 
 const BookingPage = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -33,7 +35,21 @@ const BookingPage = () => {
     
   }
 
-  const handleSubmit = (e) => {
+  //send email function
+  // const sendEmail = (email) => {
+  //   window.Email.send({
+  //     SecureToken : "c4a0f7ab-15a0-4524-b8c0-075e073c7f4e",
+  //     To : email,
+  //     From : "matline.pr@gmail.com",
+  //     Subject: "Sending Email using javascript with SMTPJS",
+  //     Body: "If you are reading this, dont forget to applaud kaustubh72"
+  //     })
+  //     .then(message => alert(message)
+  //     );
+  // }
+
+  //perform empty checks and send data to firestore
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if(!(telephone.match('[0-9]{10}'))){
       setUserError(["Enter Valid Phone Number!"]);
@@ -46,11 +62,17 @@ const BookingPage = () => {
         seats: seats , 
         bookingDate:startDate.toDateString()
       };
-      console.log(formData,user)
-      setSeats([])
-      setStartDate(new Date())
-      setTelephone("")
-      setUserError([])
+      try {
+        const docRef = await addDoc(collection(db, 'bookings'), formData)
+        console.log(formData,user,docRef.id)
+        setSeats([])
+        setStartDate(new Date())
+        setTelephone("")
+        setUserError([])
+      } catch (err) {
+        alert(err)
+      }
+      // sendEmail(user.email)
     }
   }
   
