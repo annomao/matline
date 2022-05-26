@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, {useState,useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import { auth, registerWithEmailAndPassword} from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import HomeHeader from "./HomeHeader";
@@ -11,23 +11,22 @@ const Register = () => {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
 
-  if(loading){
-    return (
-      <div>
-        <p>Initialising</p>
-      </div>
-    );
-  }
-  if(error) {
-    return (
-      <div>
-        <p>Error: {error}</p>
-      </div>
-    );
-  }
-  if(user){
-    navigate("/dashboard")
-  }
+  useEffect(()=>{
+    if(loading){
+        <div>
+          <p className="text-center text-3xl">Wait a moment as we Create your account</p>
+        </div>
+    }
+    if(error) {
+        <div>
+          <p>Error: {error}</p>
+        </div>
+    }
+    if(user){
+      navigate("/dashboard")
+    }
+  },[user,loading])
+  
 
   const register = (e) => {
     e.preventDefault()

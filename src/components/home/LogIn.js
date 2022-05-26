@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword} from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import HomeHeader from "./HomeHeader";
@@ -9,24 +9,23 @@ const LogIn = () => {
   const[password,setPassword] = useState("")
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(loading){
+        <div>
+          <p className="text-center text-3xl">Wait a moment as we log you in</p>
+        </div>
+    }
+    if(error) {
+        <div>
+          <p>Error: {error}</p>
+        </div>
+    }
+    if(user){
+      navigate("/dashboard")
+    }
+  },[user,loading])
   
-  if(loading){
-    return (
-      <div>
-        <p>Initialising</p>
-      </div>
-    );
-  }
-  if(error) {
-    return (
-      <div>
-        <p>Error: {error}</p>
-      </div>
-    );
-  }
-  if(user){
-    navigate("/dashboard")
-  }
 
   const login = (e) => {
     e.preventDefault()
