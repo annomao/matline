@@ -5,7 +5,6 @@ import { auth, db, logout } from "../../firebase";
 import { query, collection, getDocs, where,onSnapshot } from "firebase/firestore";
 import DashHeader from "./DashHeader";
 import BookingDisplay from "./BookingDisplay";
-import Footer from "../Footer";
 
 const DashBoard = ()=>{
   const [user, loading, error] = useAuthState(auth);
@@ -37,8 +36,6 @@ const DashBoard = ()=>{
     })))
   })
   }, [user, loading,navigate]);
-
-  console.log(userBookings)
 
   return(
     <>
