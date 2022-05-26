@@ -44,11 +44,10 @@ const DashBoard = ()=>{
     <>
     <DashHeader logout={logout}/>
     <div className="text-center">
-      <h1 className="text-2xl font-dancing-script text-gray-800 text-left mx-8">Welcome back {name}</h1>
-      <p>Booking Details </p>
+      <h1 className="text-3xl font-dancing-script text-app-maroon my-4">Welcome back {name}</h1>
+      <p className="text-2xl font-poppins mb-8 text-app-maroon underline">Booking Details </p>
     </div>
     <BookingDisplay data={userBookings} />
-    <Footer/>
     </>
   )
 }

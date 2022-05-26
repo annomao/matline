@@ -16,7 +16,7 @@ const BookingDisplay = ({data}) => {
       <div className="flex content-center justify-center "> 
       <div className="md:w-4/5">
       <table className="min-w-full bg-white">
-        <thead className="bg-gray-800 text-white">
+        <thead className="bg-app-maroon text-white">
           <tr>
             <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Booking ID</th>
             <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Phone No</th>
